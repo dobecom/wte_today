@@ -33,7 +33,7 @@ class startOlympicWidget extends StatelessWidget {
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return const StartOption();
+                return StartOption();
               }));
             },
             child: const SizedBox(

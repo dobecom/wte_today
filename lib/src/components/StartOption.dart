@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CheckOptionWidget extends StatefulWidget {
-  const CheckOptionWidget({Key? key}) : super(key: key);
+  const CheckOptionWidget({Key? key, required this.optionName})
+      : super(key: key);
+  final String optionName;
 
   @override
   State<CheckOptionWidget> createState() => _CheckOptionWidgetState();
@@ -9,11 +11,12 @@ class CheckOptionWidget extends StatefulWidget {
 
 class _CheckOptionWidgetState extends State<CheckOptionWidget> {
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
-      // checkColor: Colors.white,
-      title: Text('여기 옵션이름'),
+      checkColor: Colors.white,
+      title: Text(widget.optionName),
       value: isChecked,
       onChanged: (bool? value) {
         setState(() {
@@ -21,12 +24,11 @@ class _CheckOptionWidgetState extends State<CheckOptionWidget> {
         });
       },
       controlAffinity: ListTileControlAffinity.leading,
-      // fillColor: Colors.white,
-      // value: isChecked,
-      // onChanged: (bool? value) {},
     );
   }
 }
+
+List<String> optionArr = ['option1', 'option2', 'option3'];
 
 class StartOption extends StatelessWidget {
   const StartOption({Key? key}) : super(key: key);
@@ -34,18 +36,40 @@ class StartOption extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(32),
-        child: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Column(children: [
-            Text('시작 설정하기'),
-            CheckOptionWidget(),
-          ]),
-        ),
+        body: Container(
+      padding: const EdgeInsets.all(32),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Column(children: [
+          const Text('시작 설정'),
+          Column(children: _getOptionArr()),
+          Container(
+            padding: const EdgeInsets.all(5),
+            child: GestureDetector(
+              child: Row(children: [
+                const Text('시작하기'),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.start),
+                )
+              ]),
+              onTap: () {
+                print('start!');
+              },
+            ),
+          ),
+        ]),
       ),
-    );
+    ));
+  }
+
+  _getOptionArr() {
+    return optionArr
+        .map((option) => CheckOptionWidget(
+              optionName: option,
+            ))
+        .toList();
   }
 }
