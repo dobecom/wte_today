@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'src/components/RestaurantDetail.dart';
-import 'src/components/StartOption.dart';
+import 'src/components/RestaurantDetailComponent.dart';
+import 'src/components/StartingOptionComponent.dart';
 import 'src/models/Restaurants.dart';
 
 void main() {
@@ -21,8 +21,8 @@ Widget registerRestaurantWidget = Container(
   ),
 );
 
-class startOlympicWidget extends StatelessWidget {
-  const startOlympicWidget({Key? key}) : super(key: key);
+class StartOlympicWidget extends StatelessWidget {
+  const StartOlympicWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class startOlympicWidget extends StatelessWidget {
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return StartOption();
+                return const StartingOptionComponent();
               }));
             },
             child: const SizedBox(
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: [
           searchTextField,
-          const startOlympicWidget(),
+          const StartOlympicWidget(),
           registerRestaurantWidget,
           // Image.asset(
           //   'lib/images/platform.png',

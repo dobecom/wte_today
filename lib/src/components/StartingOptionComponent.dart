@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'SelectRestaurantComponent.dart';
+
 class CheckOptionWidget extends StatefulWidget {
   const CheckOptionWidget({Key? key, required this.optionName})
       : super(key: key);
@@ -30,8 +32,8 @@ class _CheckOptionWidgetState extends State<CheckOptionWidget> {
 
 List<String> optionArr = ['option1', 'option2', 'option3'];
 
-class StartOption extends StatelessWidget {
-  const StartOption({Key? key}) : super(key: key);
+class StartingOptionComponent extends StatelessWidget {
+  const StartingOptionComponent({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,12 @@ class StartOption extends StatelessWidget {
               child: Row(children: [
                 const Text('시작하기'),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const SelectRestaurantComponent();
+                    }));
+                  },
                   icon: const Icon(Icons.start),
                 )
               ]),
