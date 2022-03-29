@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wte_today/main.dart';
 import 'StartingOptionComponent.dart';
 
 class ContentCardComponent extends StatelessWidget {
-  const ContentCardComponent(
-      {Key? key, required this.contentName, this.location})
+  const ContentCardComponent({Key? key, required this.contentName})
       : super(key: key);
   final String contentName;
-  final String? location;
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class ContentCardComponent extends StatelessWidget {
         child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              print(location);
-              if (location == null) {
+              if (Provider.of<Data>(context, listen: false).location == '') {
+                print('null');
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -34,6 +34,7 @@ class ContentCardComponent extends StatelessWidget {
                       );
                     });
               } else {
+                print(Provider.of<Data>(context, listen: false).location);
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const StartingOptionComponent();
                 }));

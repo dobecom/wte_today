@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wte_today/src/components/MainContentComponent.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-String? location;
 
 class SearchTextField extends StatelessWidget {
   SearchTextField({Key? key}) : super(key: key);
@@ -22,12 +21,17 @@ class SearchTextField extends StatelessWidget {
               controller: searchController,
               // textInputAction: TextInputAction.go,
               onSubmitted: (value) {
-                location = value;
+                if (value != '') {
+                  Provider.of<Data>(context, listen: false).updateData(value);
+                } else {}
               }),
         ),
         IconButton(
             onPressed: () {
-              location = searchController.text;
+              if (searchController.text != '') {
+                Provider.of<Data>(context, listen: false)
+                    .updateData(searchController.text);
+              } else {}
             },
             icon: const Icon(Icons.search))
       ]),
@@ -58,21 +62,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String location = '';
+  // Map data = {'name': 'Sammy Shark', 'email': 'example@example.com', 'age': 42};
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          SearchTextField(),
-          MainContentComponent(
-            location: location,
-          ),
-        ],
+    // return ChangeNotifierProvider<Data>(
+    //   create: (context) => Data(),
+    //   child: MaterialApp(
+    //     home: AccountScreen(),
+    //     routes: {
+    //       'account': (context) => AccountScreen(),
+    //       'settings': (context) => SettingsScreen(),
+    //     },
+    //   ),
+    // );
+    return Provider<Data>(
+      create: (context) => Data(),
+      child: Scaffold(
+        body: ListView(
+          children: [
+            SearchTextField(),
+            const MainContentComponent(),
+          ],
+        ),
       ),
     );
   }
 }
 
+class Data extends ChangeNotifier {
+  // Map data = {'name': 'Sammy Shark', 'email': 'example@example.com', 'age': 42};
+  String location = '';
+  void updateData(input) {
+    location = input;
+    notifyListeners();
+  }
+}
 // Widget textSection = const Padding(
 //   padding: EdgeInsets.all(32),
 //   child: Text(
