@@ -1,46 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:wte_today/src/components/MainContentComponent.dart';
 import 'package:provider/provider.dart';
+import 'package:wte_today/src/components/SearchComponent.dart';
+import 'package:wte_today/src/providers/LocationProvider.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class SearchTextField extends StatelessWidget {
-  SearchTextField({Key? key}) : super(key: key);
-
-  final searchController = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      child: Row(children: [
-        Expanded(
-          child: TextField(
-              decoration: const InputDecoration(hintText: '위치를 설정하세요'),
-              controller: searchController,
-              // textInputAction: TextInputAction.go,
-              onSubmitted: (value) {
-                if (value != '') {
-                  Provider.of<Data>(context, listen: false).updateData(value);
-                } else {}
-              }),
-        ),
-        IconButton(
-            onPressed: () {
-              if (searchController.text != '') {
-                Provider.of<Data>(context, listen: false)
-                    .updateData(searchController.text);
-              } else {}
-            },
-            icon: const Icon(Icons.search))
-      ]),
-    );
-  }
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(
+      create: (context) => LocationProvider(),
+    )
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,56 +22,41 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String location = '';
-  // Map data = {'name': 'Sammy Shark', 'email': 'example@example.com', 'age': 42};
-
   @override
   Widget build(BuildContext context) {
-    // return ChangeNotifierProvider<Data>(
-    //   create: (context) => Data(),
-    //   child: MaterialApp(
-    //     home: AccountScreen(),
-    //     routes: {
-    //       'account': (context) => AccountScreen(),
-    //       'settings': (context) => SettingsScreen(),
-    //     },
-    //   ),
-    // );
-    return Provider<Data>(
-      create: (context) => Data(),
+    return ChangeNotifierProvider(
+      create: (context) => LocationProvider(),
       child: Scaffold(
-        body: ListView(
-          children: [
-            SearchTextField(),
-            const MainContentComponent(),
-          ],
+        body: GestureDetector(
+          onTap: () => {
+            FocusScope.of(context).unfocus(),
+          },
+          child: ListView(
+            children: [
+              SearchComponent(),
+              const MainContentComponent(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class Data extends ChangeNotifier {
-  // Map data = {'name': 'Sammy Shark', 'email': 'example@example.com', 'age': 42};
-  String location = '';
-  void updateData(input) {
-    location = input;
-    notifyListeners();
-  }
-}
+
 // Widget textSection = const Padding(
 //   padding: EdgeInsets.all(32),
 //   child: Text(

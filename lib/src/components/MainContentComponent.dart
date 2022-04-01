@@ -6,12 +6,12 @@ class MainContentComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: const [
         ContentCardComponent(
           contentName: '16강 올림픽 시작',
           // location: Provider.of<Data>(context, listen: false).location,
         ),
-        const Divider(),
+        Divider(),
         ContentCardComponent(
           contentName: '즐겨찾는 식당 등록',
           // location: location,

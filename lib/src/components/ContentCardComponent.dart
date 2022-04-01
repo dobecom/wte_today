@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wte_today/main.dart';
+import 'package:wte_today/src/components/SearchComponent.dart';
+import '../providers/LocationProvider.dart';
 import 'StartingOptionComponent.dart';
 
 class ContentCardComponent extends StatelessWidget {
@@ -16,14 +17,16 @@ class ContentCardComponent extends StatelessWidget {
         child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              if (Provider.of<Data>(context, listen: false).location == '') {
+              if (Provider.of<LocationProvider>(context, listen: false)
+                      .location ==
+                  '') {
                 print('null');
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: new Text('Warning'),
-                        content: new Text('위치를 먼저 설정해주세요'),
+                        title: const Text('Warning'),
+                        content: const Text('위치를 먼저 설정해주세요'),
                         actions: [
                           TextButton(
                               onPressed: () {
@@ -34,7 +37,7 @@ class ContentCardComponent extends StatelessWidget {
                       );
                     });
               } else {
-                print(Provider.of<Data>(context, listen: false).location);
+                print(context.read<LocationProvider>().location.toString());
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return const StartingOptionComponent();
                 }));

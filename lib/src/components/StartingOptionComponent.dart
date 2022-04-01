@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:wte_today/src/providers/LocationProvider.dart';
 
 import 'SelectRestaurantComponent.dart';
 
@@ -30,11 +32,18 @@ class _CheckOptionWidgetState extends State<CheckOptionWidget> {
   }
 }
 
-List<String> optionArr = ['option1', 'option2', 'option3'];
+List<String> optionArr = ['거리 우선', '평점 우선', 'option3'];
 
-class StartingOptionComponent extends StatelessWidget {
+class StartingOptionComponent extends StatefulWidget {
   const StartingOptionComponent({Key? key}) : super(key: key);
 
+  @override
+  State<StartingOptionComponent> createState() =>
+      _StartingOptionComponentState();
+}
+
+class _StartingOptionComponentState extends State<StartingOptionComponent> {
+  bool _isStart = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,27 +55,39 @@ class StartingOptionComponent extends StatelessWidget {
         },
         child: Column(children: [
           const Text('시작 설정'),
-          Column(children: _getOptionArr()),
-          Container(
-            padding: const EdgeInsets.all(5),
-            child: GestureDetector(
-              child: Row(children: [
-                const Text('시작하기'),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return const SelectRestaurantComponent();
-                    }));
-                  },
-                  icon: const Icon(Icons.start),
+          Text(context.read<LocationProvider>().location.toString()),
+          _isStart
+              ? Expanded(
+                  child: const SelectRestaurantComponent(),
                 )
-              ]),
-              onTap: () {
-                print('start!');
-              },
-            ),
-          ),
+              : Column(
+                  children: [
+                    Column(children: _getOptionArr()),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      child: GestureDetector(
+                        child: Row(children: [
+                          const Text('시작하기'),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isStart = true;
+                              });
+                              // Navigator.push(context,
+                              //     MaterialPageRoute(builder: (context) {
+                              //   return const SelectRestaurantComponent();
+                              // }));
+                            },
+                            icon: const Icon(Icons.start),
+                          )
+                        ]),
+                        onTap: () {
+                          print('start!');
+                        },
+                      ),
+                    ),
+                  ],
+                )
         ]),
       ),
     ));
