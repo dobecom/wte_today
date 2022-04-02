@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wte_today/src/components/SearchComponent.dart';
 import '../providers/LocationProvider.dart';
 import 'StartingOptionComponent.dart';
 
@@ -8,19 +7,19 @@ class ContentCardComponent extends StatelessWidget {
   const ContentCardComponent({Key? key, required this.contentName})
       : super(key: key);
   final String contentName;
-
   @override
   Widget build(BuildContext context) {
+    String location = context.watch<LocationProvider>().location.toString();
+    print(context.read<LocationProvider>().location.toString());
+    print(context.read<LocationProvider>().location.toString());
+
     return Container(
       padding: const EdgeInsets.all(32),
       child: Card(
         child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
             onTap: () {
-              if (Provider.of<LocationProvider>(context, listen: false)
-                      .location ==
-                  '') {
-                print('null');
+              if (location == '') {
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
@@ -37,9 +36,10 @@ class ContentCardComponent extends StatelessWidget {
                       );
                     });
               } else {
-                print(context.read<LocationProvider>().location.toString());
+                print('content card' +
+                    context.read<LocationProvider>().location.toString());
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const StartingOptionComponent();
+                  return StartingOptionComponent();
                 }));
               }
             },

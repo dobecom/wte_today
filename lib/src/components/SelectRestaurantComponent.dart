@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/LocationProvider.dart';
 import 'RestaurantPreviewComponent.dart';
 
 class SelectRestaurantComponent extends StatelessWidget {
@@ -12,6 +14,7 @@ class SelectRestaurantComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
+        Text(context.read<LocationProvider>().location.toString()),
         RestaurantPreviewComponent(
           imageUrl: url1,
         ),

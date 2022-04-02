@@ -36,7 +36,6 @@ List<String> optionArr = ['거리 우선', '평점 우선', 'option3'];
 
 class StartingOptionComponent extends StatefulWidget {
   const StartingOptionComponent({Key? key}) : super(key: key);
-
   @override
   State<StartingOptionComponent> createState() =>
       _StartingOptionComponentState();
@@ -54,8 +53,20 @@ class _StartingOptionComponentState extends State<StartingOptionComponent> {
           Navigator.pop(context);
         },
         child: Column(children: [
-          const Text('시작 설정'),
-          Text(context.read<LocationProvider>().location.toString()),
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.arrow_back)),
+          ChangeNotifierProvider(
+            create: (_) => LocationProvider(),
+            child: Text(context.read<LocationProvider>().location.toString()),
+          ),
+          Text(LocationProvider().location.toString()),
+          Text(context.watch<LocationProvider>().location.toString()),
+          Text(Provider.of<LocationProvider>(context, listen: false)
+              .location
+              .toString()),
           _isStart
               ? Expanded(
                   child: const SelectRestaurantComponent(),

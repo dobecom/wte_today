@@ -3,10 +3,16 @@ import 'package:provider/provider.dart';
 
 import '../providers/LocationProvider.dart';
 
-class SearchComponent extends StatelessWidget {
+class SearchComponent extends StatefulWidget {
   SearchComponent({Key? key}) : super(key: key);
 
-  final searchController = TextEditingController();
+  @override
+  State<SearchComponent> createState() => _SearchComponentState();
+}
+
+class _SearchComponentState extends State<SearchComponent> {
+  // final searchController = TextEditingController();
+  String inputText = '';
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,13 +22,19 @@ class SearchComponent extends StatelessWidget {
           child: TextField(
               decoration: const InputDecoration(
                 hintText: '위치를 설정하세요',
+                // labelText: context.read<LocationProvider>().location.toString(),
               ),
               keyboardType: TextInputType.text,
-              controller: searchController,
+              onChanged: (text) {
+                setState(() {
+                  inputText = text;
+                });
+              },
+              // controller: searchController,
               // textInputAction: TextInputAction.go,
               onSubmitted: (value) {
-                if (value != '') {
-                  context.read<LocationProvider>().updateData(value);
+                if (inputText != '') {
+                  context.read<LocationProvider>().updateData(inputText);
                   // Provider.of<LocationProvider>(context, listen: false)
                   //     .updateData(value);
                 } else {}
@@ -30,10 +42,8 @@ class SearchComponent extends StatelessWidget {
         ),
         IconButton(
             onPressed: () {
-              if (searchController.text != '') {
-                context
-                    .read<LocationProvider>()
-                    .updateData(searchController.text);
+              if (inputText != '') {
+                context.read<LocationProvider>().updateData(inputText);
                 // Provider.of<LocationProvider>(context, listen: false)
                 //     .updateData(searchController.text);
               } else {}

@@ -35,8 +35,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  String location = '';
   @override
   Widget build(BuildContext context) {
+    location = context.read<LocationProvider>().location.toString();
     return ChangeNotifierProvider(
       create: (context) => LocationProvider(),
       child: Scaffold(
@@ -46,8 +48,8 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           child: ListView(
             children: [
-              SearchComponent(),
-              const MainContentComponent(),
+              location != '' ? Text(location) : SearchComponent(),
+              MainContentComponent(),
             ],
           ),
         ),
