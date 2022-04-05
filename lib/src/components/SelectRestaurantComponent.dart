@@ -14,7 +14,6 @@ class SelectRestaurantComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(children: [
-        Text(context.read<LocationProvider>().location.toString()),
         RestaurantPreviewComponent(
           imageUrl: url1,
         ),

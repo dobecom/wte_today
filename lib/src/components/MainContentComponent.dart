@@ -9,12 +9,10 @@ class MainContentComponent extends StatelessWidget {
       children: const [
         ContentCardComponent(
           contentName: '16강 올림픽 시작',
-          // location: Provider.of<Data>(context, listen: false).location,
         ),
         Divider(),
         ContentCardComponent(
           contentName: '즐겨찾는 식당 등록',
-          // location: location,
         ),
       ],
     );

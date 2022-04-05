@@ -9,47 +9,39 @@ void main() {
     ChangeNotifierProvider(
       create: (context) => LocationProvider(),
     )
-  ], child: MyApp()));
+  ], child: Home()));
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+// class MyApp extends StatelessWidget {
+//   MyApp({Key? key}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Flutter Demo',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: Home(),
+//     );
+//   }
+// }
+
+class Home extends StatelessWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  String location = '';
-  @override
-  Widget build(BuildContext context) {
-    location = context.read<LocationProvider>().location.toString();
-    return ChangeNotifierProvider(
-      create: (context) => LocationProvider(),
-      child: Scaffold(
+      home: Scaffold(
         body: GestureDetector(
           onTap: () => {
             FocusScope.of(context).unfocus(),
           },
           child: ListView(
             children: [
-              location != '' ? Text(location) : SearchComponent(),
-              MainContentComponent(),
+              SearchComponent(),
+              const MainContentComponent(),
             ],
           ),
         ),
@@ -57,7 +49,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
 
 // Widget textSection = const Padding(
 //   padding: EdgeInsets.all(32),

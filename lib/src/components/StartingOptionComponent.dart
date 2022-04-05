@@ -45,62 +45,57 @@ class _StartingOptionComponentState extends State<StartingOptionComponent> {
   bool _isStart = false;
   @override
   Widget build(BuildContext context) {
+    print(context.read<LocationProvider>().location.toString());
     return Scaffold(
         body: Container(
       padding: const EdgeInsets.all(32),
-      child: GestureDetector(
-        onTap: () {
-          Navigator.pop(context);
-        },
-        child: Column(children: [
-          IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.arrow_back)),
-          ChangeNotifierProvider(
-            create: (_) => LocationProvider(),
-            child: Text(context.read<LocationProvider>().location.toString()),
-          ),
-          Text(LocationProvider().location.toString()),
-          Text(context.watch<LocationProvider>().location.toString()),
-          Text(Provider.of<LocationProvider>(context, listen: false)
-              .location
-              .toString()),
-          _isStart
-              ? Expanded(
-                  child: const SelectRestaurantComponent(),
-                )
-              : Column(
-                  children: [
-                    Column(children: _getOptionArr()),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      child: GestureDetector(
-                        child: Row(children: [
-                          const Text('시작하기'),
-                          IconButton(
-                            onPressed: () {
-                              setState(() {
-                                _isStart = true;
-                              });
-                              // Navigator.push(context,
-                              //     MaterialPageRoute(builder: (context) {
-                              //   return const SelectRestaurantComponent();
-                              // }));
-                            },
-                            icon: const Icon(Icons.start),
-                          )
-                        ]),
-                        onTap: () {
-                          print('start!');
-                        },
-                      ),
+      child: Column(children: [
+        Row(
+          children: [
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back)),
+            Text(
+              context.watch<LocationProvider>().location.toString(),
+              style: TextStyle(fontSize: 24),
+            ),
+          ],
+        ),
+        _isStart
+            ? Expanded(
+                child: const SelectRestaurantComponent(),
+              )
+            : Column(
+                children: [
+                  Column(children: _getOptionArr()),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    child: GestureDetector(
+                      child: Row(children: [
+                        const Text('시작하기'),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isStart = true;
+                            });
+                            // Navigator.push(context,
+                            //     MaterialPageRoute(builder: (context) {
+                            //   return const SelectRestaurantComponent();
+                            // }));
+                          },
+                          icon: const Icon(Icons.start),
+                        )
+                      ]),
+                      onTap: () {
+                        print('start!');
+                      },
                     ),
-                  ],
-                )
-        ]),
-      ),
+                  ),
+                ],
+              )
+      ]),
     ));
   }
 

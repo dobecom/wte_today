@@ -10,9 +10,6 @@ class ContentCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String location = context.watch<LocationProvider>().location.toString();
-    print(context.read<LocationProvider>().location.toString());
-    print(context.read<LocationProvider>().location.toString());
-
     return Container(
       padding: const EdgeInsets.all(32),
       child: Card(
@@ -36,8 +33,6 @@ class ContentCardComponent extends StatelessWidget {
                       );
                     });
               } else {
-                print('content card' +
-                    context.read<LocationProvider>().location.toString());
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return StartingOptionComponent();
                 }));
