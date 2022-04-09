@@ -45,7 +45,6 @@ class _StartingOptionComponentState extends State<StartingOptionComponent> {
   bool _isStart = false;
   @override
   Widget build(BuildContext context) {
-    print(context.read<LocationProvider>().location.toString());
     return Scaffold(
         body: Container(
       padding: const EdgeInsets.all(32),

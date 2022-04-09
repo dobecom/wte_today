@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../providers/LocationProvider.dart';
 import 'RestaurantPreviewComponent.dart';
 
 class SelectRestaurantComponent extends StatelessWidget {
@@ -16,10 +13,14 @@ class SelectRestaurantComponent extends StatelessWidget {
       body: Column(children: [
         RestaurantPreviewComponent(
           imageUrl: url1,
+          restaurantName: '옛날 농장',
+          popularPoint: 3,
         ),
         const Divider(),
         RestaurantPreviewComponent(
           imageUrl: url2,
+          restaurantName: '로얄 돈가스',
+          popularPoint: 4.5,
         ),
       ]),
     );
