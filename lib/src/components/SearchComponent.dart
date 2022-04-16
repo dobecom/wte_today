@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/LocationProvider.dart';
+import 'SetLocationComponent.dart';
 
 class SearchComponent extends StatefulWidget {
   SearchComponent({Key? key}) : super(key: key);
@@ -46,7 +47,11 @@ class _SearchComponentState extends State<SearchComponent> {
                 context.read<LocationProvider>().updateData(inputText);
                 // Provider.of<LocationProvider>(context, listen: false)
                 //     .updateData(searchController.text);
-              } else {}
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SetLocationComponent();
+                }));
+              }
             },
             icon: const Icon(Icons.search))
       ]),

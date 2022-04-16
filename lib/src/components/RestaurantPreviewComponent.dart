@@ -19,11 +19,11 @@ class RestaurantPreviewComponent extends StatelessWidget {
         children: List.generate(
             length,
             (index) => !(halfPoint && (index == length - 1))
-                ? Icon(
+                ? const Icon(
                     Icons.star,
                     color: Colors.red,
                   )
-                : Icon(Icons.star_half, color: Colors.red)));
+                : const Icon(Icons.star_half, color: Colors.red)));
   }
 
   @override
