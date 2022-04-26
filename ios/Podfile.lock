@@ -10,7 +10,7 @@ PODS:
   - GoogleMaps/Base (4.1.0)
   - GoogleMaps/Maps (4.1.0):
     - GoogleMaps/Base
-  - permission (0.0.1):
+  - location (0.0.1):
     - Flutter
   - url_launcher_ios (0.0.1):
     - Flutter
@@ -21,7 +21,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
-  - permission (from `.symlinks/plugins/permission/ios`)
+  - location (from `.symlinks/plugins/location/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
@@ -36,8 +36,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/geolocator_apple/ios"
   google_maps_flutter:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
-  permission:
-    :path: ".symlinks/plugins/permission/ios"
+  location:
+    :path: ".symlinks/plugins/location/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
   webview_flutter_wkwebview:
@@ -48,7 +48,7 @@ SPEC CHECKSUMS:
   geolocator_apple: cc556e6844d508c95df1e87e3ea6fa4e58c50401
   google_maps_flutter: c59fc576c0d0c7f4dc4bd63832c862d22d5a7c6d
   GoogleMaps: 008e2c80e38605b56b560e8deb73d4194ff30bef
-  permission: c186483e23779d53def6b55986323494927c22c8
+  location: 3a2eed4dd2fab25e7b7baf2a9efefe82b512d740
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 

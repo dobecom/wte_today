@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 //kakao dev native app key : c37ec7452f72b9b30857b509f5e1ec51
 //kakao dev JS key : 8935ca69c6353ae333cba79e2746eae8
 // g maps API : AIzaSyAe7MZEiSHsV1C6pNmrjKmmy2wt815-4JE
+// g maps API - android : AIzaSyBYpsFPHeTeW0EWuEChgRm7MfobJyx_Bc0
 // app bundle ID : com.example.wteToday
 
 void main() {
