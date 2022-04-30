@@ -1,7 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wte_today/src/models/PlacesModel.dart';
+import 'package:wte_today/src/services/NearbySearchService.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
+
 // import 'package:location/location.dart';
 // import 'package:geolocator/geolocator.dart';
 // import '../services/GeoLocatorService.dart';
@@ -15,96 +21,202 @@ class SetLocationComponent extends StatefulWidget {
 }
 
 class _SetLocationComponentState extends State<SetLocationComponent> {
-  Completer<GoogleMapController> _controller = Completer();
+  bool isCheckedCurrentLocation = false;
 
-  // Location location = new Location();
-  // bool _serviceEnabled = false;
-  // late PermissionStatus _permissionGranted;
-  // LocationData? _locationData;
-  // getCurrentLocation() async {
-  //   _serviceEnabled = await location.serviceEnabled();
-  //   if (!_serviceEnabled) {
-  //     _serviceEnabled = await location.requestService();
-  //     if (!_serviceEnabled) {
-  //       return;
-  //     }
-  //   }
+  late LocationPermission permission;
+  late Position position;
 
-  //   _permissionGranted = await location.hasPermission();
-  //   if (_permissionGranted == PermissionStatus.denied) {
-  //     _permissionGranted = await location.requestPermission();
-  //     if (_permissionGranted != PermissionStatus.granted) {
-  //       return;
-  //     }
-  //   }
+  @override
+  void initState() {
+    super.initState();
+    // initState 에서는 Future를 리턴할 수 없음.(async, await를 쓸 수 없음)
+    // 동기처리해야하는 이유는 구글맵 뿌리기 전에 현재 위치부터 가져와야하기 때문임
+    // await getLocation();
+  }
 
-  //   _locationData = await location.getLocation();
-  //   print(_locationData);
-  // }
+//  await getCurrentLocation().then((value) {
+//       Position pos = value;
+//       if (!isCheckedCurrentLocation) {
+//         setState(() {
+//           _initLocation = CameraPosition(
+//               target: LatLng(pos.latitude, pos.longitude), zoom: 18);
+//           isCheckedCurrentLocation = true;
+//           locValue = _initLocation.toString();
+//           position = value;
+//         });
+//       }
+//       locValue = pos.latitude.toString();
+//     });
+  getLocation() {
+    Geolocator.requestPermission().then((value) {
+      setState(() {
+        permission = value;
+      });
+    });
+    Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low)
+        .then((value) {
+      setState(() {
+        position = value;
+      });
+    });
+  }
 
   Future<Position> getCurrentLocation() async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    permission = await Geolocator.requestPermission();
+
+    position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    //     .then((value) {
+    //   setState(() {
+    //     position = value;
+    //   });
+    //   if (kDebugMode) {
+    //     print('value');
+    //   }
+    //   return value;
+    // }).catchError((e) {
+    //   if (kDebugMode) {
+    //     print(e);
+    //   }
+    // });
     return position;
   }
 
   CameraPosition _initLocation =
-      CameraPosition(target: LatLng(37.4219983, -122.084), zoom: 14.4746);
+      CameraPosition(target: LatLng(37.2419983, -122.084), zoom: 14.4746);
 
-  // double centerLng = 43;
-  // double centerLat = 21;
-  // bool loading = false;
+  Completer<GoogleMapController> _controller = Completer();
 
+  // late Future<PlacesModel> placesModel;
+
+  // @override
   // void initState() {
   //   super.initState();
-  //   loading = true;
-  //   getPosition();
+  //   // placesModel = NearbySearchService(position, '', 1000, 'restaurant',
+  //   //         'AIzaSyBYpsFPHeTeW0EWuEChgRm7MfobJyx_Bc0')
+  //   //     .fetchPost();
   // }
 
-  // getPosition() async {
-  //   Position position = await Geolocator.getCurrentPosition(
-  //       desiredAccuracy: LocationAccuracy.best);
-  //   try {
-  //     setState(() {
-  //       centerLng = position.longitude;
-  //       centerLat = position.latitude;
-  //       loading = false;
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
+  static String kGoogleApiKey = 'AIzaSyBYpsFPHeTeW0EWuEChgRm7MfobJyx_Bc0';
+  final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: kGoogleApiKey);
+  List<PlacesSearchResult> places = [];
+  late GoogleMapController mapController;
 
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    if (position != null)
+      getNearbyPlaces(LatLng(position.latitude, position.longitude));
+  }
+
+  void getNearbyPlaces(LatLng center) async {
+    final location = Location(lat: position.latitude, lng: position.longitude);
+    final result = await _places.searchNearbyWithRadius(location, 2500);
+
+    setState(() {
+      if (result.status == "OK") {
+        this.places = result.results;
+      }
+      print(result.status);
+    });
+  }
+
+  // CameraPosition _initLocation =
+  //     CameraPosition(target: LatLng(37.4219983, -122.084), zoom: 14.4746);
   @override
   Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   home: TextButton(
-    //     child: const Text('hi'),
-    //     onPressed: () {
-    //       getCurrentLocation();
-    //       // print('location data is...');
-    //       // print(_locationData);
-    //     },
-    //   ),
-    // );
-
-    late Position pos;
+    // return FutureBuilder<Position>(
+    //     future: getCurrentLocation(),
+    //     builder: ((context, AsyncSnapshot<Position> snapshot) {
+    //       List<Widget> children;
+    //       if (snapshot.hasData) {
+    //         children = <Widget>[
+    //           Container(
+    //             child: const Text('hi'),
+    //           ),
+    //           // Container(
+    //           //   padding: const EdgeInsets.all(5),
+    //           //   width: 500,
+    //           //   height: 500,
+    //           //   child: GoogleMap(
+    //           //       mapType: MapType.hybrid,
+    //           //       initialCameraPosition: _initLocation,
+    //           //       // CameraPosition(
+    //           //       //     target: LatLng(
+    //           //       //         snapshot.data!.latitude, snapshot.data!.longitude),
+    //           //       //     zoom: 14.4746),
+    //           //       onMapCreated: (GoogleMapController controlller) {
+    //           //         _controller.complete(controlller);
+    //           //       }),
+    //           // )
+    //         ];
+    //       } else if (snapshot.hasError) {
+    //         children = <Widget>[
+    //           const Icon(
+    //             Icons.error_outline,
+    //             color: Colors.red,
+    //             size: 60,
+    //           ),
+    //           Padding(
+    //             padding: const EdgeInsets.only(top: 16),
+    //             child: Text('Error: ${snapshot.error}'),
+    //           )
+    //         ];
+    //       } else {
+    //         children = const <Widget>[
+    //           SizedBox(
+    //             width: 60,
+    //             height: 60,
+    //             child: CircularProgressIndicator(),
+    //           ),
+    //           Padding(
+    //             padding: EdgeInsets.only(top: 16),
+    //             child: Text('Awaiting result...'),
+    //           )
+    //         ];
+    //       }
+    //       return Center(
+    //         child: Column(
+    //           mainAxisAlignment: MainAxisAlignment.center,
+    //           children: children,
+    //         ),
+    //       );
+    //     }));
     getCurrentLocation().then((value) {
-      pos = value;
       setState(() {
         _initLocation = CameraPosition(
-            target: LatLng(pos.latitude, pos.longitude), zoom: 14.4746);
+            target: LatLng(value.latitude, value.longitude), zoom: 14.4746);
       });
     });
-
     return Scaffold(
-      body: GoogleMap(
-          mapType: MapType.hybrid,
-          initialCameraPosition: _initLocation,
-          onMapCreated: (GoogleMapController controlller) {
-            _controller.complete(controlller);
-          }),
+      body: ListView(children: [
+        Container(
+          padding: const EdgeInsets.all(5),
+          width: 500,
+          height: 500,
+          child: GoogleMap(
+              mapType: MapType.hybrid,
+              initialCameraPosition: _initLocation,
+              onMapCreated: (GoogleMapController controlller) {
+                _onMapCreated(controlller);
+                // _controller.complete(controlller);
+              }),
+        )
+      ]),
     );
+
+    // FutureBuilder<PlacesModel>(
+    //   future: placesModel,
+    //   builder: (context, snapshot) {
+    //     String tempText = (snapshot.data?.title ?? '');
+    //     if (snapshot.hasData) {
+    //       return Text(tempText);
+    //     } else if (snapshot.hasError) {
+    //       return Text("${snapshot.error}");
+    //     }
+
+    //     // 기본적으로 로딩 Spinner를 보여줍니다.
+    //     return CircularProgressIndicator();
+    //   },
+    // )
   }
 }
