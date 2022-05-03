@@ -56,8 +56,9 @@ class _StartingOptionComponentState extends State<StartingOptionComponent> {
                   Navigator.pop(context);
                 },
                 icon: Icon(Icons.arrow_back)),
-            Text(
-              context.watch<LocationProvider>().location.toString(),
+            const Text(
+              // context.watch<LocationProvider>().location.toString(),
+              '현재 위치',
               style: TextStyle(fontSize: 24),
             ),
           ],

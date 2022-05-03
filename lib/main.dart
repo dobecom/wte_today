@@ -37,9 +37,9 @@ class Home extends StatelessWidget {
             FocusScope.of(context).unfocus(),
           },
           child: ListView(
-            children: [
+            children: const [
               SearchComponent(),
-              const MainContentComponent(),
+              MainContentComponent(),
               // KakaoMapView(
               //     width: 300,
               //     height: 400,
