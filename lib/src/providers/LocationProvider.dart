@@ -6,8 +6,8 @@ class LocationProvider with ChangeNotifier {
   // Map data = {'name': 'Sammy Shark', 'email': 'example@example.com', 'age': 42};
   // String? _location;
   // String get location => _location != null ? _location as String : '';
-  List<PlacesModel> _pm = [];
-  List<PlacesModel> get pm => _pm;
+  List<PlacesModel> _currentPlaces = [];
+  List<PlacesModel> get currentPlaces => _currentPlaces;
   String _currentLocation = '위치를 설정해주세요';
   String get currentLocation => _currentLocation;
 
@@ -17,7 +17,7 @@ class LocationProvider with ChangeNotifier {
   }
 
   void updateNearbyPlaces(input) {
-    _pm = input;
+    _currentPlaces = input;
     notifyListeners();
   }
 }

@@ -37,9 +37,13 @@ class Home extends StatelessWidget {
             FocusScope.of(context).unfocus(),
           },
           child: ListView(
-            children: const [
+            children: [
               SearchComponent(),
               MainContentComponent(),
+              const Text('주변 식당 목록...'),
+              for (var item in context.watch<LocationProvider>().currentPlaces)
+                Text(item.name)
+
               // KakaoMapView(
               //     width: 300,
               //     height: 400,

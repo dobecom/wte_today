@@ -51,7 +51,8 @@ class _SearchComponentState extends State<SearchComponent> {
 
     List<geo.Placemark> placemark =
         await geo.placemarkFromCoordinates(location.lat, location.lng);
-    final String currentLocationStreetName = placemark[0].street.toString();
+    final String currentLocationStreetName =
+        '현재 위치 : ' + placemark[0].street.toString();
     context.read<LocationProvider>().updateLocation(currentLocationStreetName);
 
     final result = await _places
@@ -73,9 +74,11 @@ class _SearchComponentState extends State<SearchComponent> {
         restaurantList.add(restaurant);
       }
     }
-    setState(() {
-      restaurants = restaurantList;
-    });
+    context.read<LocationProvider>().updateNearbyPlaces(restaurantList);
+
+    // setState(() {
+    //   restaurants = restaurantList;
+    // });
   }
 
   void handleError(e) {
