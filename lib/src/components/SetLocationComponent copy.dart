@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wte_today/src/models/PlacesModel.dart';
@@ -22,8 +22,8 @@ class SetLocationComponent extends StatefulWidget {
 class _SetLocationComponentState extends State<SetLocationComponent> {
   bool isCheckedCurrentLocation = false;
 
-  late LocationPermission permission;
-  late Position position;
+  // late LocationPermission permission;
+  // late Position position;
 
   @override
   void initState() {
@@ -47,31 +47,13 @@ class _SetLocationComponentState extends State<SetLocationComponent> {
 //       locValue = pos.latitude.toString();
 //     });
 
-  Future<Position> getCurrentLocation() async {
-    permission = await Geolocator.requestPermission();
+  // Future<Position> getCurrentLocation() async {
+  //   permission = await Geolocator.requestPermission();
 
-    position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    //     .then((value) {
-    //   print(value.toString());
-    // }).catchError((err) {
-    //   print(err);
-    // });
-    //     .then((value) {
-    //   setState(() {
-    //     position = value;
-    //   });
-    //   if (kDebugMode) {
-    //     print('value');
-    //   }
-    //   return value;
-    // }).catchError((e) {
-    //   if (kDebugMode) {
-    //     print(e);
-    //   }
-    // });
-    return position;
-  }
+  //   position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.low);
+  //   return position;
+  // }
 
   Future<String> printString() async {
     return 'hi';
@@ -96,23 +78,23 @@ class _SetLocationComponentState extends State<SetLocationComponent> {
   List<PlacesSearchResult> places = [];
   // late GoogleMapController mapController;
 
-  void _onMapCreated(Position currentPosition) {
-    // mapController = controller;
-    getNearbyPlaces(
-        LatLng(currentPosition.latitude, currentPosition.longitude));
-  }
+  // void _onMapCreated(Position currentPosition) {
+  //   // mapController = controller;
+  //   getNearbyPlaces(
+  //       LatLng(currentPosition.latitude, currentPosition.longitude));
+  // }
 
-  void getNearbyPlaces(LatLng center) async {
-    final location = Location(lat: position.latitude, lng: position.longitude);
-    final result = await _places.searchNearbyWithRadius(location, 2500);
+  // void getNearbyPlaces(LatLng center) async {
+  //   final location = Location(lat: position.latitude, lng: position.longitude);
+  //   final result = await _places.searchNearbyWithRadius(location, 2500);
 
-    setState(() {
-      if (result.status == "OK") {
-        places = result.results;
-      }
-      print(result.status);
-    });
-  }
+  //   setState(() {
+  //     if (result.status == "OK") {
+  //       places = result.results;
+  //     }
+  //     print(result.status);
+  //   });
+  // }
 
   // CameraPosition _initLocation =
   //     CameraPosition(target: LatLng(37.4219983, -122.084), zoom: 14.4746);
@@ -182,17 +164,17 @@ class _SetLocationComponentState extends State<SetLocationComponent> {
       print(e);
     });
 
-    getCurrentLocation().then((value) {
-      print('why didn' 't proceed this section?');
-      _onMapCreated(value);
-      setState(() {
-        _initLocation = CameraPosition(
-            target: LatLng(value.latitude, value.longitude), zoom: 10.4746);
-      });
-      print(position);
-    }).catchError((err) {
-      print(err);
-    });
+    // getCurrentLocation().then((value) {
+    //   print('why didn' 't proceed this section?');
+    //   _onMapCreated(value);
+    //   setState(() {
+    //     _initLocation = CameraPosition(
+    //         target: LatLng(value.latitude, value.longitude), zoom: 10.4746);
+    //   });
+    //   print(position);
+    // }).catchError((err) {
+    //   print(err);
+    // });
     return Scaffold(
       body: ListView(children: [
         Container(

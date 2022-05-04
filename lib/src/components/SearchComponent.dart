@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
 import 'package:wte_today/src/models/PlacesModel.dart';
 import 'package:google_maps_webservice/places.dart' as web_gmaps;
-
 import '../providers/LocationProvider.dart';
 import 'SetLocationComponent.dart';
+import 'package:geocoding/geocoding.dart' as geo;
 
 class SearchComponent extends StatefulWidget {
   const SearchComponent({Key? key}) : super(key: key);
@@ -16,59 +18,75 @@ class SearchComponent extends StatefulWidget {
 }
 
 class _SearchComponentState extends State<SearchComponent> {
-  // final searchController = TextEditingController();
-  String inputText = '';
   static String googlePlacesAPIKey = 'AIzaSyB2EQRPjxCCuvlI6lXLp8yrvwurDmejgV4';
   final web_gmaps.GoogleMapsPlaces _places =
       web_gmaps.GoogleMapsPlaces(apiKey: googlePlacesAPIKey);
   List<web_gmaps.PlacesSearchResult> places = [];
   late GoogleMapController _controller;
   final Location _location = Location();
-  late List<PlacesModel> restaurants;
+  late PlacesModel restaurant;
+  List<PlacesModel> restaurants = [];
+
+  List<PlacesModel> restaurantList = <PlacesModel>[];
   LatLng? latLng;
 
   getNearbyPlaces() {
-    // _controller = ctlr;
-    _location.getLocation().then((value) async {
-      latLng = LatLng(value.latitude!, value.longitude!);
-      // _controller.animateCamera(
-      //   CameraUpdate.newCameraPosition(
-      //     CameraPosition(target: latLng, zoom: 15),
-      //   ),
-      // );
-      final location =
-          web_gmaps.Location(lat: latLng!.latitude, lng: latLng!.longitude);
-      PlacesModel restaurant;
-      List<PlacesModel> restaurantList = <PlacesModel>[];
-      final result =
-          await _places.searchNearbyWithRadius(location, 2500).then((value) {
-        for (web_gmaps.PlacesSearchResult result in value.results) {
-          if (result.types.contains('restaurant')) {
-            restaurant = PlacesModel(
-                result.placeId,
-                result.name,
-                result.rating as double,
-                result.geometry!.location.lat,
-                result.geometry!.location.lng);
-            restaurantList.add(restaurant);
-          }
-        }
-        setState(() {
-          restaurants = restaurantList;
-        });
-      }).catchError((onError) {
-        print('error1');
-      });
-    }).catchError((onError) {
-      print('error2');
+    _location.getLocation().then(setCurrentLocation, onError: (e) {
+      handleError(e);
+    }).catchError(handleError);
+  }
+
+  FutureOr setCurrentLocation(LocationData value) async {
+    latLng = LatLng(value.latitude!, value.longitude!);
+    // _controller.animateCamera(
+    //   CameraUpdate.newCameraPosition(
+    //     CameraPosition(target: latLng, zoom: 15),
+    //   ),
+    // );
+    final location =
+        web_gmaps.Location(lat: latLng!.latitude, lng: latLng!.longitude);
+    // context.read<LocationProvider>().updateLocation(location);
+    // Provider.of<LocationProvider>(context, listen: false)
+    // .updateLocation(location);
+
+    List<geo.Placemark> placemark =
+        await geo.placemarkFromCoordinates(location.lat, location.lng);
+    final String currentLocationStreetName = placemark[0].street.toString();
+    context.read<LocationProvider>().updateLocation(currentLocationStreetName);
+
+    final result = await _places
+        .searchNearbyWithRadius(location, 2500)
+        .then(setNearbyPlaces, onError: (e) {
+      handleError(e);
+    }).catchError(handleError);
+  }
+
+  FutureOr setNearbyPlaces(web_gmaps.PlacesSearchResponse value) {
+    for (web_gmaps.PlacesSearchResult result in value.results) {
+      if (result.types.contains('restaurant')) {
+        restaurant = PlacesModel(
+            result.placeId,
+            result.name,
+            result.rating as double,
+            result.geometry!.location.lat,
+            result.geometry!.location.lng);
+        restaurantList.add(restaurant);
+      }
+    }
+    setState(() {
+      restaurants = restaurantList;
     });
+  }
+
+  void handleError(e) {
+    print(e.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      child: Row(children: [
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         // Expanded(
         //   child: TextField(
         //       decoration: const InputDecoration(
@@ -91,7 +109,7 @@ class _SearchComponentState extends State<SearchComponent> {
         //         } else {}
         //       }),
         // ),
-        const Text('현재 위치 설정하기'),
+        Text(context.watch<LocationProvider>().currentLocation),
         IconButton(
             onPressed: getNearbyPlaces,
             // () {
