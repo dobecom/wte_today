@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:wte_today/src/models/PhotoRefModel.dart';
 import 'package:wte_today/src/models/PlacesModel.dart';
 import 'package:google_maps_webservice/places.dart' as web_gmaps;
 import '../providers/LocationProvider.dart';
@@ -64,13 +65,19 @@ class _SearchComponentState extends State<SearchComponent> {
 
   FutureOr setNearbyPlaces(web_gmaps.PlacesSearchResponse value) {
     for (web_gmaps.PlacesSearchResult result in value.results) {
+      List<PhotoRefModel> photos = [];
       if (result.types.contains('restaurant')) {
+        for (var photo in result.photos) {
+          photos.add(
+              PhotoRefModel(photo.height, photo.width, photo.photoReference));
+        }
         restaurant = PlacesModel(
             result.placeId,
             result.name,
             result.rating as double,
             result.geometry!.location.lat,
-            result.geometry!.location.lng);
+            result.geometry!.location.lng,
+            photos);
         restaurantList.add(restaurant);
       }
     }

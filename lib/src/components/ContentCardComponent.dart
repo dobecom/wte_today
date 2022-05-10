@@ -10,7 +10,7 @@ class ContentCardComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // String location = context.watch<LocationProvider>().location.toString();
-    String location = '';
+    String location = context.watch<LocationProvider>().currentLocation;
     return Container(
       padding: const EdgeInsets.all(32),
       child: Card(

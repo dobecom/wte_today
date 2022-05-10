@@ -12,6 +12,19 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // g maps API - android : AIzaSyBYpsFPHeTeW0EWuEChgRm7MfobJyx_Bc0
 // app bundle ID : com.example.wteToday
 
+//20220510 latest G maps API (Maps for Android/iOS, Places) : AIzaSyAe7MZEiSHsV1C6pNmrjKmmy2wt815-4JE
+const String gMapsAPIKey = 'AIzaSyAe7MZEiSHsV1C6pNmrjKmmy2wt815-4JE';
+String getFullUrl(maxWidth, photoRef) {
+  String gMapsPhotoUrl = 'https://maps.googleapis.com/maps/api/place/photo';
+  return gMapsPhotoUrl +
+      '?maxwidth=' +
+      maxWidth +
+      '&photo_reference=' +
+      photoRef +
+      '&key=' +
+      gMapsAPIKey;
+}
+
 void main() {
   // KakaoSdk.init(nativeAppKey: 'c37ec7452f72b9b30857b509f5e1ec51');
 
@@ -42,7 +55,13 @@ class Home extends StatelessWidget {
               MainContentComponent(),
               const Text('주변 식당 목록...'),
               for (var item in context.watch<LocationProvider>().currentPlaces)
-                Text(item.name)
+                Column(
+                  children: [
+                    Text(item.name),
+                    Image.network(
+                        getFullUrl('400', item.photos[0].photoReference)),
+                  ],
+                ),
 
               // KakaoMapView(
               //     width: 300,

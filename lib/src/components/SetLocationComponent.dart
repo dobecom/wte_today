@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:wte_today/src/models/PhotoRefModel.dart';
 import 'package:wte_today/src/models/PlacesModel.dart';
 import 'package:google_maps_webservice/places.dart' as web_gmaps;
 
@@ -60,7 +61,8 @@ class _SetLocationComponentState extends State<SetLocationComponent> {
               result.name,
               result.rating as double,
               result.geometry!.location.lat,
-              result.geometry!.location.lng);
+              result.geometry!.location.lng,
+              result.photos as List<PhotoRefModel>);
           restaurantList.add(restaurant);
         }
       }
