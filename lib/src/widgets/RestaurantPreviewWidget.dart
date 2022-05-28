@@ -5,11 +5,13 @@ class RestaurantPreviewWidget extends StatelessWidget {
       {Key? key,
       required this.imageUrl,
       required this.restaurantName,
-      required this.ratings})
+      required this.ratings,
+      required this.distance})
       : super(key: key);
   final String imageUrl;
   final String restaurantName;
   final double ratings;
+  final String distance;
 
   _getStarArray(ratings) {
     final int length = ratings.round();
@@ -69,6 +71,21 @@ class RestaurantPreviewWidget extends StatelessWidget {
                     ),
                     _getStarArray(ratings)
                   ])),
+            ),
+            Container(
+              padding: const EdgeInsets.all(5),
+              width: 300,
+              height: 200,
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  distance.toString(),
+                  style: TextStyle(
+                      backgroundColor: Colors.grey[50],
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
+              ),
             ),
           ],
         ),

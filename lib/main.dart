@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wte_today/src/screens/MainContentScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:wte_today/src/widgets/SearchComponent.dart';
+import 'package:wte_today/src/widgets/SearchWidget.dart';
 import 'package:wte_today/src/providers/LocationProvider.dart';
 // import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -52,8 +52,8 @@ class Home extends StatelessWidget {
           },
           child: ListView(
             children: [
-              SearchWidget(),
-              MainContentScreen(),
+              const SearchWidget(),
+              const MainContentScreen(),
               const Text('주변 식당 목록...'),
               for (var item in context.watch<LocationProvider>().currentPlaces)
                 Column(

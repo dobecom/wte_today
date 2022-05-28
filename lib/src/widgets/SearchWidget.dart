@@ -7,8 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:wte_today/src/models/PhotoRefModel.dart';
 import 'package:wte_today/src/models/PlacesModel.dart';
 import 'package:google_maps_webservice/places.dart' as web_gmaps;
+import 'package:wte_today/src/services/GglService.dart';
+import 'package:wte_today/src/utils/Config.dart';
+import 'package:wte_today/src/utils/SecurityKeys.dart';
 import '../providers/LocationProvider.dart';
-import '../components/SetLocationComponent.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 
 class SearchWidget extends StatefulWidget {
@@ -19,9 +21,9 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends State<SearchWidget> {
-  static String googlePlacesAPIKey = 'AIzaSyB2EQRPjxCCuvlI6lXLp8yrvwurDmejgV4';
+  // static String googlePlacesAPIKey = 'AIzaSyB2EQRPjxCCuvlI6lXLp8yrvwurDmejgV4';
   final web_gmaps.GoogleMapsPlaces _places =
-      web_gmaps.GoogleMapsPlaces(apiKey: googlePlacesAPIKey);
+      web_gmaps.GoogleMapsPlaces(apiKey: SecurityKeys.gMapsAPIKey);
   List<web_gmaps.PlacesSearchResult> places = [];
   late GoogleMapController _controller;
   final Location _location = Location();
@@ -57,7 +59,7 @@ class _SearchWidgetState extends State<SearchWidget> {
     context.read<LocationProvider>().updateLocation(currentLocationStreetName);
 
     final result = await _places
-        .searchNearbyWithRadius(location, 2500)
+        .searchNearbyWithRadius(location, Config.currentPlacesRange)
         .then(setNearbyPlaces, onError: (e) {
       handleError(e);
     }).catchError(handleError);
@@ -77,6 +79,8 @@ class _SearchWidgetState extends State<SearchWidget> {
             result.rating as double,
             result.geometry!.location.lat,
             result.geometry!.location.lng,
+            GglService.calculateDistance(latLng!.latitude, latLng!.longitude,
+                result.geometry!.location.lat, result.geometry!.location.lng),
             photos);
         restaurantList.add(restaurant);
       }

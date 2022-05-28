@@ -25,6 +25,7 @@ class SelectRestaurantScreen extends StatelessWidget {
               '400', currentPlaces[0].photos[0].photoReference),
           restaurantName: currentPlaces[0].name,
           ratings: currentPlaces[0].rating,
+          distance: currentPlaces[0].distance,
         ),
         const Divider(),
         RestaurantPreviewWidget(
@@ -32,6 +33,7 @@ class SelectRestaurantScreen extends StatelessWidget {
               '400', currentPlaces[1].photos[0].photoReference),
           restaurantName: currentPlaces[1].name,
           ratings: currentPlaces[1].rating,
+          distance: currentPlaces[1].distance,
         ),
         // RestaurantPreviewWidget(
         //   imageUrl: url1,
