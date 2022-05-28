@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class RestaurantPreviewComponent extends StatelessWidget {
-  const RestaurantPreviewComponent(
+class RestaurantPreviewWidget extends StatelessWidget {
+  const RestaurantPreviewWidget(
       {Key? key,
       required this.imageUrl,
       required this.restaurantName,
-      required this.popularPoint})
+      required this.ratings})
       : super(key: key);
   final String imageUrl;
   final String restaurantName;
-  final double popularPoint;
+  final double ratings;
 
-  _getStarArray(popularPoint) {
-    final int length = popularPoint.round();
+  _getStarArray(ratings) {
+    final int length = ratings.round();
     //반올림 해서 값이 더 크면, 0.5 star로 표시
-    bool halfPoint = length > popularPoint ? true : false;
+    bool halfPoint = length > ratings ? true : false;
     return Row(
         children: List.generate(
             length,
@@ -61,13 +61,13 @@ class RestaurantPreviewComponent extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   child: Row(children: [
                     Text(
-                      popularPoint.toString(),
+                      ratings.toString(),
                       style: TextStyle(
                           backgroundColor: Colors.grey[50],
                           fontWeight: FontWeight.bold,
                           fontSize: 20),
                     ),
-                    _getStarArray(popularPoint)
+                    _getStarArray(ratings)
                   ])),
             ),
           ],

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:wte_today/src/components/MainContentComponent.dart';
+import 'package:wte_today/src/screens/MainContentScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:wte_today/src/components/SearchComponent.dart';
+import 'package:wte_today/src/widgets/SearchComponent.dart';
 import 'package:wte_today/src/providers/LocationProvider.dart';
 // import 'package:kakaomap_webview/kakaomap_webview.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:wte_today/src/services/GglService.dart';
 
 //kakao dev native app key : c37ec7452f72b9b30857b509f5e1ec51
 //kakao dev JS key : 8935ca69c6353ae333cba79e2746eae8
@@ -13,17 +14,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // app bundle ID : com.example.wteToday
 
 //20220510 latest G maps API (Maps for Android/iOS, Places) : AIzaSyAe7MZEiSHsV1C6pNmrjKmmy2wt815-4JE
-const String gMapsAPIKey = 'AIzaSyAe7MZEiSHsV1C6pNmrjKmmy2wt815-4JE';
-String getFullUrl(maxWidth, photoRef) {
-  String gMapsPhotoUrl = 'https://maps.googleapis.com/maps/api/place/photo';
-  return gMapsPhotoUrl +
-      '?maxwidth=' +
-      maxWidth +
-      '&photo_reference=' +
-      photoRef +
-      '&key=' +
-      gMapsAPIKey;
-}
+// const String gMapsAPIKey = 'AIzaSyAe7MZEiSHsV1C6pNmrjKmmy2wt815-4JE';
+// String getFullUrl(maxWidth, photoRef) {
+//   String gMapsPhotoUrl = 'https://maps.googleapis.com/maps/api/place/photo';
+//   return gMapsPhotoUrl +
+//       '?maxwidth=' +
+//       maxWidth +
+//       '&photo_reference=' +
+//       photoRef +
+//       '&key=' +
+//       gMapsAPIKey;
+// }
 
 void main() {
   // KakaoSdk.init(nativeAppKey: 'c37ec7452f72b9b30857b509f5e1ec51');
@@ -51,15 +52,15 @@ class Home extends StatelessWidget {
           },
           child: ListView(
             children: [
-              SearchComponent(),
-              MainContentComponent(),
+              SearchWidget(),
+              MainContentScreen(),
               const Text('주변 식당 목록...'),
               for (var item in context.watch<LocationProvider>().currentPlaces)
                 Column(
                   children: [
                     Text(item.name),
-                    Image.network(
-                        getFullUrl('400', item.photos[0].photoReference)),
+                    Image.network(GglService.getFullUrl(
+                        '400', item.photos[0].photoReference)),
                   ],
                 ),
 

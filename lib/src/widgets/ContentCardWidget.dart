@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/LocationProvider.dart';
-import 'StartingOptionComponent.dart';
+import '../screens/StartingOptionScreen.dart';
 
-class ContentCardComponent extends StatelessWidget {
-  const ContentCardComponent({Key? key, required this.contentName})
+class ContentCardWidget extends StatelessWidget {
+  const ContentCardWidget({Key? key, required this.contentName})
       : super(key: key);
   final String contentName;
   @override
@@ -35,7 +35,7 @@ class ContentCardComponent extends StatelessWidget {
                     });
               } else {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return StartingOptionComponent();
+                  return StartingOptionScreen();
                 }));
               }
             },

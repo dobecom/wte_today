@@ -34,17 +34,18 @@ class _CheckOptionWidgetState extends State<CheckOptionWidget> {
 
 List<String> optionArr = ['거리 우선', '평점 우선', 'option3'];
 
-class StartingOptionComponent extends StatefulWidget {
-  const StartingOptionComponent({Key? key}) : super(key: key);
+class StartingOptionScreen extends StatefulWidget {
+  const StartingOptionScreen({Key? key}) : super(key: key);
   @override
-  State<StartingOptionComponent> createState() =>
-      _StartingOptionComponentState();
+  State<StartingOptionScreen> createState() => _StartingOptionScreenState();
 }
 
-class _StartingOptionComponentState extends State<StartingOptionComponent> {
+class _StartingOptionScreenState extends State<StartingOptionScreen> {
   bool _isStart = false;
+
   @override
   Widget build(BuildContext context) {
+    String currentLocation = context.watch<LocationProvider>().currentLocation;
     return Scaffold(
         body: Container(
       padding: const EdgeInsets.all(32),
@@ -56,16 +57,15 @@ class _StartingOptionComponentState extends State<StartingOptionComponent> {
                   Navigator.pop(context);
                 },
                 icon: Icon(Icons.arrow_back)),
-            const Text(
-              // context.watch<LocationProvider>().location.toString(),
-              '현재 위치',
-              style: TextStyle(fontSize: 24),
+            Text(
+              currentLocation,
+              // style: TextStyle(fontSize: 24),
             ),
           ],
         ),
         _isStart
-            ? Expanded(
-                child: const SelectRestaurantComponent(),
+            ? const Expanded(
+                child: SelectRestaurantScreen(),
               )
             : Column(
                 children: [

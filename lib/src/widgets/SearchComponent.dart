@@ -8,17 +8,17 @@ import 'package:wte_today/src/models/PhotoRefModel.dart';
 import 'package:wte_today/src/models/PlacesModel.dart';
 import 'package:google_maps_webservice/places.dart' as web_gmaps;
 import '../providers/LocationProvider.dart';
-import 'SetLocationComponent.dart';
+import '../components/SetLocationComponent.dart';
 import 'package:geocoding/geocoding.dart' as geo;
 
-class SearchComponent extends StatefulWidget {
-  const SearchComponent({Key? key}) : super(key: key);
+class SearchWidget extends StatefulWidget {
+  const SearchWidget({Key? key}) : super(key: key);
 
   @override
-  State<SearchComponent> createState() => _SearchComponentState();
+  State<SearchWidget> createState() => _SearchWidgetState();
 }
 
-class _SearchComponentState extends State<SearchComponent> {
+class _SearchWidgetState extends State<SearchWidget> {
   static String googlePlacesAPIKey = 'AIzaSyB2EQRPjxCCuvlI6lXLp8yrvwurDmejgV4';
   final web_gmaps.GoogleMapsPlaces _places =
       web_gmaps.GoogleMapsPlaces(apiKey: googlePlacesAPIKey);

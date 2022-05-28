@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:wte_today/src/components/ContentCardComponent.dart';
+import 'package:wte_today/src/widgets/ContentCardWidget.dart';
 
-class MainContentComponent extends StatelessWidget {
-  const MainContentComponent({Key? key}) : super(key: key);
+class MainContentScreen extends StatelessWidget {
+  const MainContentScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        ContentCardComponent(
+        ContentCardWidget(
           contentName: '16강 올림픽 시작',
         ),
         Divider(),
-        ContentCardComponent(
+        ContentCardWidget(
           contentName: '즐겨찾는 식당 등록',
         ),
       ],
