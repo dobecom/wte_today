@@ -52,8 +52,8 @@ class Home extends StatelessWidget {
           },
           child: ListView(
             children: [
-              const SearchWidget(),
-              const MainContentScreen(),
+              SearchWidget(),
+              MainContentScreen(),
               const Text('주변 식당 목록...'),
               for (var item in context.watch<LocationProvider>().currentPlaces)
                 Column(

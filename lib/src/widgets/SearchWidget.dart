@@ -40,7 +40,9 @@ class _SearchWidgetState extends State<SearchWidget> {
   }
 
   FutureOr setCurrentLocation(LocationData value) async {
-    latLng = LatLng(value.latitude!, value.longitude!);
+    // latLng = LatLng(value.latitude!, value.longitude!);
+    latLng = LatLng(37.5704, 126.9920);
+
     // _controller.animateCamera(
     //   CameraUpdate.newCameraPosition(
     //     CameraPosition(target: latLng, zoom: 15),
@@ -68,22 +70,28 @@ class _SearchWidgetState extends State<SearchWidget> {
   FutureOr setNearbyPlaces(web_gmaps.PlacesSearchResponse value) {
     for (web_gmaps.PlacesSearchResult result in value.results) {
       List<PhotoRefModel> photos = [];
-      if (result.types.contains('restaurant')) {
+      // if (result.types.contains('restaurant')) {
+      if (result.photos.length > 0) {
         for (var photo in result.photos) {
           photos.add(
               PhotoRefModel(photo.height, photo.width, photo.photoReference));
         }
-        restaurant = PlacesModel(
-            result.placeId,
-            result.name,
-            result.rating as double,
-            result.geometry!.location.lat,
-            result.geometry!.location.lng,
-            GglService.calculateDistance(latLng!.latitude, latLng!.longitude,
-                result.geometry!.location.lat, result.geometry!.location.lng),
-            photos);
-        restaurantList.add(restaurant);
+      } else {
+        photos.add(PhotoRefModel(10, 10,
+            'Aap_uEB-56jWo756ww9JDijDREeVlTBUJn1xGoNF7fnP0jlx8oxO4xLcCage2gVy3FxmA8YxOsmbN5i0w0sQ5NFUHiq9OlpyBLbCl_YI02W-5kDKE1ozjVnBSASGYTojOkyamh7M3Z_N8IFD2wDJZgO9D2_v2e6wDIkLu9CeF_5aglSeHRpD'));
       }
+
+      restaurant = PlacesModel(
+          result.placeId,
+          result.name,
+          result.rating != null ? result.rating!.toDouble() : 0.0,
+          result.geometry!.location.lat,
+          result.geometry!.location.lng,
+          GglService.calculateDistance(latLng!.latitude, latLng!.longitude,
+              result.geometry!.location.lat, result.geometry!.location.lng),
+          photos);
+      restaurantList.add(restaurant);
+      // }
     }
     context.read<LocationProvider>().updateNearbyPlaces(restaurantList);
 
