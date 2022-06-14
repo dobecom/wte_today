@@ -41,7 +41,7 @@ class _SearchWidgetState extends State<SearchWidget> {
 
   FutureOr setCurrentLocation(LocationData value) async {
     // latLng = LatLng(value.latitude!, value.longitude!);
-    latLng = LatLng(37.5704, 126.9920);
+    latLng = LatLng(37.5643, 127.0058);
 
     // _controller.animateCamera(
     //   CameraUpdate.newCameraPosition(
@@ -59,12 +59,24 @@ class _SearchWidgetState extends State<SearchWidget> {
     final String currentLocationStreetName =
         '현재 위치 : ' + placemark[0].street.toString();
     context.read<LocationProvider>().updateLocation(currentLocationStreetName);
-
     final result = await _places
-        .searchNearbyWithRadius(location, Config.currentPlacesRange)
+        .searchNearbyWithRadius(location, Config.currentPlacesRange,
+            type: "restaurant")
         .then(setNearbyPlaces, onError: (e) {
       handleError(e);
     }).catchError(handleError);
+
+    // final result = await _places
+    //     .searchNearbyWithRankBy(location, "distance", type: "restaurant")
+    //     .then(setNearbyPlaces, onError: (e) {
+    //   handleError(e);
+    // }).catchError(handleError);
+
+    // final result = await _places
+    //     .searchNearbyWithRadius(location, Config.currentPlacesRange)
+    //     .then(setNearbyPlaces, onError: (e) {
+    //   handleError(e);
+    // }).catchError(handleError);
   }
 
   FutureOr setNearbyPlaces(web_gmaps.PlacesSearchResponse value) {
@@ -77,8 +89,8 @@ class _SearchWidgetState extends State<SearchWidget> {
               PhotoRefModel(photo.height, photo.width, photo.photoReference));
         }
       } else {
-        photos.add(PhotoRefModel(10, 10,
-            'Aap_uEB-56jWo756ww9JDijDREeVlTBUJn1xGoNF7fnP0jlx8oxO4xLcCage2gVy3FxmA8YxOsmbN5i0w0sQ5NFUHiq9OlpyBLbCl_YI02W-5kDKE1ozjVnBSASGYTojOkyamh7M3Z_N8IFD2wDJZgO9D2_v2e6wDIkLu9CeF_5aglSeHRpD'));
+        // photos.add(PhotoRefModel(10, 10,
+        //     'Aap_uEB-56jWo756ww9JDijDREeVlTBUJn1xGoNF7fnP0jlx8oxO4xLcCage2gVy3FxmA8YxOsmbN5i0w0sQ5NFUHiq9OlpyBLbCl_YI02W-5kDKE1ozjVnBSASGYTojOkyamh7M3Z_N8IFD2wDJZgO9D2_v2e6wDIkLu9CeF_5aglSeHRpD'));
       }
 
       restaurant = PlacesModel(
@@ -91,8 +103,8 @@ class _SearchWidgetState extends State<SearchWidget> {
               result.geometry!.location.lat, result.geometry!.location.lng),
           photos);
       restaurantList.add(restaurant);
-      // }
     }
+    // }
     context.read<LocationProvider>().updateNearbyPlaces(restaurantList);
 
     // setState(() {

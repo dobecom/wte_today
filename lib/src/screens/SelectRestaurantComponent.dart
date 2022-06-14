@@ -7,15 +7,15 @@ import 'package:wte_today/src/services/GglService.dart';
 
 class SelectRestaurantScreen extends StatelessWidget {
   const SelectRestaurantScreen({Key? key}) : super(key: key);
-  final String url1 =
-      'https://postfiles.pstatic.net/MjAyMDAyMDFfMTU1/MDAxNTgwNTQzNTI3OTAz.XysiyRFf8pbVMvqoowWELBaoqRSmCIEet9AFc8rrFPog.uc4-vF47bJfIMLK9nUGJ1gQFJuxPXdq4nkiqp-uGVmog.JPEG.risingkeyword/IMG_3930.JPG?type=w966';
-  final String url2 =
-      'https://postfiles.pstatic.net/MjAyMTEwMjBfOTUg/MDAxNjM0NzM3MzgxMjcw.PKhZZ72elrrKGcleogvrj5qxfLUu7OLLQ70wLaVRIjwg.ZzHELGBvJR6O1c4BlGo_d2xP5JEH3BnuvKB5f9f5EOAg.JPEG.joohj9404/output_2706785171.jpg?type=w773';
+  // final String url1 =
+  //     'https://postfiles.pstatic.net/MjAyMDAyMDFfMTU1/MDAxNTgwNTQzNTI3OTAz.XysiyRFf8pbVMvqoowWELBaoqRSmCIEet9AFc8rrFPog.uc4-vF47bJfIMLK9nUGJ1gQFJuxPXdq4nkiqp-uGVmog.JPEG.risingkeyword/IMG_3930.JPG?type=w966';
+  // final String url2 =
+  //     'https://postfiles.pstatic.net/MjAyMTEwMjBfOTUg/MDAxNjM0NzM3MzgxMjcw.PKhZZ72elrrKGcleogvrj5qxfLUu7OLLQ70wLaVRIjwg.ZzHELGBvJR6O1c4BlGo_d2xP5JEH3BnuvKB5f9f5EOAg.JPEG.joohj9404/output_2706785171.jpg?type=w773';
   @override
   Widget build(BuildContext context) {
     List<PlacesModel> currentPlaces =
         context.watch<LocationProvider>().currentPlaces;
-    GglService.getFullUrl('400', currentPlaces[0].photos[0].photoReference);
+    // GglService.getFullUrl('400', currentPlaces[0].photos[0].photoReference);
 
     return Scaffold(
       body: Column(children: [

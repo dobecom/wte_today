@@ -59,8 +59,11 @@ class Home extends StatelessWidget {
                 Column(
                   children: [
                     Text(item.name),
-                    Image.network(GglService.getFullUrl(
-                        '400', item.photos[0].photoReference)),
+                    (item.photos != null && item.photos.length > 0)
+                        ? Image.network(GglService.getFullUrl(
+                            '400', item.photos[0].photoReference))
+                        : Image(
+                            image: AssetImage('lib/images/noImageFound.png')),
                   ],
                 ),
 

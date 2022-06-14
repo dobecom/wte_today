@@ -1,5 +1,5 @@
 class Config {
-  //
-  static final int _currentPlacesRange = 2022;
+  // range = meters
+  static final int _currentPlacesRange = 300;
   static int get currentPlacesRange => _currentPlacesRange;
 }
