@@ -34,12 +34,19 @@ class RestaurantPreviewWidget extends StatelessWidget {
       child: Card(
         child: Stack(
           children: [
-            Image.network(
-              imageUrl,
-              width: 300,
-              height: 200,
-              fit: BoxFit.cover,
-            ),
+            imageUrl.contains('photo_reference=&')
+                ? Image(
+                    image: AssetImage('lib/images/noImageFound.png'),
+                    width: 300,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    imageUrl,
+                    width: 300,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
             Container(
               padding: const EdgeInsets.all(5),
               width: 300,

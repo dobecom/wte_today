@@ -22,18 +22,30 @@ class SelectRestaurantScreen extends StatelessWidget {
         Text('주변 식당 수 : ' + currentPlaces.length.toString()),
         RestaurantPreviewWidget(
           imageUrl: GglService.getFullUrl(
-              '400', currentPlaces[0].photos[0].photoReference),
-          restaurantName: currentPlaces[0].name,
-          ratings: currentPlaces[0].rating,
-          distance: currentPlaces[0].distance,
+              '400',
+              (currentPlaces[2].photos != null &&
+                      currentPlaces[2].photos.length > 0)
+                  ? currentPlaces[2].photos[0].photoReference
+                  : '' //Image(image: AssetImage('lib/images/noImageFound.png'))
+              // currentPlaces[0].photos[0].photoReference,
+              ),
+          restaurantName: currentPlaces[2].name,
+          ratings: currentPlaces[2].rating,
+          distance: currentPlaces[2].distance,
         ),
         const Divider(),
         RestaurantPreviewWidget(
           imageUrl: GglService.getFullUrl(
-              '400', currentPlaces[1].photos[0].photoReference),
-          restaurantName: currentPlaces[1].name,
-          ratings: currentPlaces[1].rating,
-          distance: currentPlaces[1].distance,
+              '400',
+              (currentPlaces[10].photos != null &&
+                      currentPlaces[10].photos.length > 0)
+                  ? currentPlaces[10].photos[0].photoReference
+                  : '' //Image(image: AssetImage('lib/images/noImageFound.png'))
+              // currentPlaces[1].photos[0].photoReference
+              ),
+          restaurantName: currentPlaces[10].name,
+          ratings: currentPlaces[10].rating,
+          distance: currentPlaces[10].distance,
         ),
         // RestaurantPreviewWidget(
         //   imageUrl: url1,
